@@ -1,9 +1,9 @@
 const Favorite = require('../models/favorite.model')
 const favoriteService = {}
 
-favoriteService.createFavorite = async function({idUser, id, songs}){
+favoriteService.createFavorite = async function({idUser, songs}){
     try{
-        const favorite = new Favorite({idUser, id,songs});
+        const favorite = new Favorite({idUser,songs});
         const newFavorite = await favorite.save();
 
         return newFavorite;

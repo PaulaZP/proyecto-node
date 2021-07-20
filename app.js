@@ -3,6 +3,10 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const userRoute = require('./routes/user.route');
+const favoriteRoute = require('./routes/favorite.route');
+const playlistRoute = require('./routes/playlist.route');
+const recentRoute = require('./routes/recent.route');
+
 
 const HOSTNAME = process.env.HOSTNAME || 'localhost';
 const PORT = process.env.PORT || 3000;
@@ -18,7 +22,7 @@ app.use(express.urlencoded({
     extended: true,
 }))
 
-app.use('/', userRoute);
+app.use('/', userRoute, favoriteRoute, playlistRoute, recentRoute);
 
 app.use('*', (req, res) =>{
     res.status(400)

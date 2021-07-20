@@ -7,12 +7,8 @@ const favoriteSchema = new Schema({
         type: Number,
         require: true
     },
-    id:{
-        type: Number,
-        require: true
-    },
     Songs:{
-        type: String,
+        type: [String],
         require: true
     },
 },{versionKey: false});

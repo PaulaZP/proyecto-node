@@ -10,9 +10,9 @@ recentController.create = async function (req, res, next) {
         return res.status(400).json({status: 400, message: error.message})
     }
 }
-recentController.getRecents = async function(req, res, next){
+recentController.getRecent = async function(req, res, next){
     try{
-        const recent = await recentService.getFavorites();
+        const recent = await recentService.getRecent();
         return res.status(200).json({ status:200, data: recent, message: "Successfully recent retrieved"})
 
     }catch(error){

@@ -12,7 +12,7 @@ const recentSchema = new Schema({
         require: true
     },
     Songs:{
-        type: String,
+        type: [String],
         require: true
     },
 },{versionKey: false});
