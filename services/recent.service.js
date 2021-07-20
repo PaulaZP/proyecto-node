@@ -1,26 +1,26 @@
-const Favorite = require('../models/favorite.model')
-const favoriteService = {}
+const Recent = require('../models/recent.model')
+const recentService = {}
 
-favoriteService.createFavorite = async function({idUser, id, songs}){
+recentService.createRecent = async function({idUser, id, songs}){
     try{
-        const favorite = new Favorite({idUser, id,songs});
-        const newFavorite = await favorite.save();
+        const recent = new Recent({idUser, id,songs});
+        const newRecent = await recent.save();
 
-        return newFavorite;
+        return newRecent;
     }catch (e){
         //disparar el error
-        throw new Error ('Error while save favorite')
+        throw new Error ('Error while save recent')
     }
 }
 
-favoriteService.getFavorite = async function(){
+recentService.getRecent = async function(){
     try{
-        const favorites = await Favorite.find({});
-        return favorites;
+        const recents = await Recent.find({});
+        return recents;
 
     }catch{
-        throw new Error ('Error while Paginating favorite')
+        throw new Error ('Error while Paginating recent')
     }
 }
 
-module.exports = favoriteService;
+module.exports = recentService;

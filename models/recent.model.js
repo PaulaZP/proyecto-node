@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const favoriteSchema = new Schema({
+const recentSchema = new Schema({
     idUser:{
         type: Number,
         require: true
@@ -17,6 +17,6 @@ const favoriteSchema = new Schema({
     },
 },{versionKey: false});
 
-const Favorite = mongoose.model('Favorite', favoriteSchema)
+const Recent = mongoose.model('Recent', recentSchema)
 
-module.exports = Favorite;
+module.exports = Recent;

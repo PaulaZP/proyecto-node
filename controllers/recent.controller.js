@@ -1,23 +1,23 @@
-const favoriteService = require ('../services/favorite.service');
+const recentService = require ('../services/recent.service');
 
-const favoriteController = {};
+const recentController = {};
 
-favoriteController.create = async function (req, res, next) {
+recentController.create = async function (req, res, next) {
     try{
-        const newFavorite = await favoriteService.createFavorite(req.body);
-        return res.status(201).json({newFavorite});
+        const newRecent = await recentService.createRecent(req.body);
+        return res.status(201).json({newRecent});
     }catch(error){
         return res.status(400).json({status: 400, message: error.message})
     }
 }
-favoriteController.getFavorites = async function(req, res, next){
+recentController.getRecents = async function(req, res, next){
     try{
-        const favorites = await favoriteService.getFavorites();
-        return res.status(200).json({ status:200, data: favorites, message: "Successfully favorites retrieved"})
+        const recent = await recentService.getFavorites();
+        return res.status(200).json({ status:200, data: recent, message: "Successfully recent retrieved"})
 
     }catch(error){
         return res.status(400).json({status: 400, message: error.message});
     }
 }
 
-module.exports = favoriteController;
+module.exports = recentController;

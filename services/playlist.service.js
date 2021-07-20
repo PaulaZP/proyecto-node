@@ -1,26 +1,26 @@
-const Favorite = require('../models/favorite.model')
-const favoriteService = {}
+const Favorite = require('../models/playlist.model')
+const playlistService = {}
 
-favoriteService.createFavorite = async function({idUser, id, songs}){
+playlistService.createPlaylist = async function({idUser, id, playlistName, songs}){
     try{
-        const favorite = new Favorite({idUser, id,songs});
-        const newFavorite = await favorite.save();
+        const playlist = new Favorite({idUser, id, playlistName, songs});
+        const newPlaylist = await playlist.save();
 
-        return newFavorite;
+        return newPlaylist;
     }catch (e){
         //disparar el error
-        throw new Error ('Error while save favorite')
+        throw new Error ('Error while save playlist')
     }
 }
 
-favoriteService.getFavorite = async function(){
+playlistService.getPlaylist = async function(){
     try{
-        const favorites = await Favorite.find({});
-        return favorites;
+        const playlists = await Playlist.find({});
+        return playlists;
 
     }catch{
-        throw new Error ('Error while Paginating favorite')
+        throw new Error ('Error while Paginating playlist')
     }
 }
 
-module.exports = favoriteService;
+module.exports = playlistService;
