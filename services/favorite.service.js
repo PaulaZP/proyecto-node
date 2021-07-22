@@ -1,26 +1,52 @@
-const Favorite = require('../models/favorite.model')
-const favoriteService = {}
+const FavoriteMusic = require('../models/favoriteMusic.model');
+const mongoose = require('mongoose');
 
-favoriteService.createFavorite = async function({idUser, songs}){
+const favoriteMusicService = {};
+
+async function findUser(idUser){
     try{
-        const favorite = new Favorite({idUser,songs});
-        const newFavorite = await favorite.save();
-
-        return newFavorite;
-    }catch (e){
-        //disparar el error
-        throw new Error ('Error while save favorite')
+        const user = FavoriteMusic.findOne({idUser: mongoose.Types.ObjectId(idUser)});
+        return user ? user : null;  //? un ternario se usa como tru o false
+    }
+    catch (e){
+        throw new Error ('Error while getting user')
     }
 }
 
-favoriteService.getFavorite = async function(){
-    try{
-        const favorites = await Favorite.find({});
-        return favorites;
-
-    }catch{
-        throw new Error ('Error while Paginating favorite')
+async function createFavoriteMusic(idUser, songs){
+    try {
+        const favoriteMusic = new FavoriteMusic({idUser, songs});
+        const newFavoriteMusic = await favoriteMusic.save();
+        return newFavoriteMusic;
+    }
+    catch (e){
+        throw new Error ('Error while save Favorite Music')
     }
 }
 
-module.exports = favoriteService;
+async function updateFavoriteMusic(user, songs){
+    try {
+        user.songs.push(songs.toString());
+        await user.save();
+        return user;
+    }
+    catch (e){
+        throw new Error ('Error while update Favorite Music')
+    }
+}
+
+favoriteMusicService.upsertFavoriteMusic = async function ({idUser, songs}) {
+    try {
+        const user = await findUser(idUser);
+        if(user){
+            return await updateFavoriteMusic(user,songs);
+        }
+
+        return await createFavoriteMusic(idUser,songs)
+    }
+    catch (e) {
+        throw new Error ('Error while save Favorite Music');
+    }
+}
+
+module.exports = favoriteMusicService ;

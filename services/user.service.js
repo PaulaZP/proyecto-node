@@ -23,4 +23,25 @@ userService.getUsers = async function(){
     }
 }
 
+userService.getUser = async function({id}){
+    try{
+        const user = await User.findById(id)
+        return user;
+    }catch (e){
+        throw new Error ('Error while returning user');
+    }
+}
+
+userService.updateUser = async function({id}, {name, email}){
+    try{
+        const user = await User.findById(id)
+        const updateUser = await user.set({name, email});  //setear los valores
+        await updateUser.save();
+        return updateUser;
+    }catch (e){
+        throw new Error ('Error while returning user');
+    }
+}
+
+
 module.exports = userService;

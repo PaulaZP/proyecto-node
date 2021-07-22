@@ -1,10 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const favoriteController = require('../controllers/favorite.controller')
+const favoriteMusicController = require('../controllers/favorite.controller');
 
-router.post('/favorite', favoriteController.create);
-router.get('/favorite', favoriteController.getFavorite)
-
+//actualizar datos
+router.put('/favorite-music', favoriteMusicController.upsert);
 
 
 module.exports = router;
