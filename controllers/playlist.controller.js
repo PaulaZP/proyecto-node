@@ -13,8 +13,8 @@ playlistController.create = async function (req, res, next) {
 
 playlistController.updatePlaylist = async function (req, res, next) {
     try{
-        const newFPlaylist = await playlistService.updatePlaylist(req.params, req.body);
-        return res.status(201).json({newFPlaylist});
+        const newPlaylist = await playlistService.updatePlaylist(req.params, req.body);
+        return res.status(201).json({newPlaylist});
     }catch(error){
         return res.status(400).json({status: 400, message: error.message})
     }
@@ -31,7 +31,7 @@ playlistController.deletePlaylist = async function (req, res, next) {
 
 playlistController.deletePlaylistSong = async function (req, res, next) {
     try{
-        const deleteSongs = await playlistService.deleteSongs(req.params);
+        const deleteSongs = await playlistService.deleteSongs(req.params, req.body);
         return res.status(201).json({deleteSongs});
     }catch(error){
         return res.status(400).json({status: 400, message: error.message})
