@@ -1,25 +1,34 @@
-const Playlist = require('../models/playlist.model')
-const PlaylistService = {}
+const Playlist = require('../models/playlist.model');
+const mongoose = require('mongoose');
 
-PlaylistService.createPlaylist = async function({idUser, playlistName, songs}){
+const PlaylistService = {};
+
+async function findUser(idUser){
     try{
-        const playlist = new Playlist({idUser, playlistName, songs});
-        const newPlaylist = await playlist.save();
-
-        return newPlaylist;
-    }catch (e){
-        //disparar el error
-        throw new Error ('Error while save playlist')
+        const user = Playlist.findOne({idUser: mongoose.Types.ObjectId(idUser)});
+        return user ? user : null;  //? un ternario se usa como true o false
+    }
+    catch (e){
+        throw Error ('Error while getting user')
     }
 }
 
-PlaylistService.getPlaylists = async function(){
+async function createPlaylist ({idUser, songs, playlistName}){
     try{
-        const playlists = await Playlist.find({});
-        return playlists;
-
-    }catch{
-        throw new Error ('Error while Paginating playlist')
+        const playlistMusic = new Playlist({idUser, songs, playlistName});
+        const newPlaylistMusic = await playlistMusic.save();
+        return newPlaylistMusic;
+    }catch (e){
+        throw new Error ('Error while save playlist')
+    }
+}
+async function updatePlaylist(user,  songs) {
+    try {
+        user.song.unshift(songs.toString());
+        await user.save();
+        return user;
+    } catch (e) {
+        throw new Error('Error while update Recent Music');
     }
 }
 
@@ -32,16 +41,7 @@ PlaylistService.getPlaylist = async function({id}){
     }
 }
 
-PlaylistService.updatePlaylist = async function({id}, {idUser, playlistName, songs}){
-    try{
-        const playlist = await Playlist.findById(id)
-        const updatePlaylist = await playlist.set({idUser, playlistName, songs});  //setear los valores
-        await updatePlaylist.save();
-        return updatePlaylist;
-    }catch (e){
-        throw new Error ('Error while returning playlist');
-    }
-}
+
 
 
 module.exports = PlaylistService;
