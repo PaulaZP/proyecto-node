@@ -1,62 +1,84 @@
-const FavoriteMusic = require('../models/favoriteMusic.model');
 const mongoose = require('mongoose');
+const FavoriteMusic = require('../models/favoriteMusic.model');
 
 const favoriteMusicService = {};
 
 async function findUser(idUser){
     try{
         const user = await FavoriteMusic.findOne({idUser: mongoose.Types.ObjectId(idUser)});
-        return user ? user : null;  //? un ternario se usa como true o false
-    }
-    catch (e){
-        throw Error ('Error while getting user')
+        return user ? user : null;  
+    }catch (e){
+        console.log('Error message', e.message);
+        throw Error ('Error while getting user');
     }
 }
 
-async function createPlaylist ({idUser, songs}){
+async function createFavorite(idUser, songs){
     try{
         const favoriteMusic = new FavoriteMusic({idUser, songs});
         const newFavoriteMusic = await favoriteMusic.save();
         return newFavoriteMusic;
     }catch (e){
-        //disparar el error
-        throw new Error ('Error while save favorite music')
+        console.log('Error message', e.message);
+        throw Error ('Error while save favorite music')
     }
 }
 
-async function updateFavoriteMusic(user, songs){
+async function updateFavoriteMusic(user, songs) {
     try {
         user.songs.push(songs.toString());
-        await user.save();
+        user.save();
+        return user;
+    } catch (e) {
+        console.log('Error Message', e.message)
+        throw  Error('Error while update Favorite Music');
+    }
+}
+
+async function deleteFavoriteMusic(user, songs){
+    try {
+        user.songs.pull(songs.toString());
+        user.save();
         return user;
     }
     catch (e){
-        throw Error ('Error while update Favorite Music')
+        console.log('Error message', e.message);
+        throw Error ('Error while delete Favorite Music')
     }
 }
 
-favoriteMusicService.upsertFavoriteMusic = async function ({idUser, songs}) {
+favoriteMusicService.upsertFavorite = async function({idUser, songs}){
     try {
         const user = await findUser(idUser);
         if(user){
-            return await updateFavoriteMusic(user,songs);
-        } else {
-            return await createPlaylist (idUser, songs)
+            return await updateFavoriteMusic(user, songs);
         }
+        return await createFavorite(idUser, songs);
     }
-    catch (e) {
-        throw new Error ('Error while save Favorite Music');
+    catch (e){
+        console.log('Error message', e.message);
+        throw Error ('Error while upsert Favorite Music');
     }
 }
 
-
-
-favoriteMusicService.getFavorite = async function ({id}) {
+favoriteMusicService.getFavorite = async function () {
     try {
-        const favoriteMusic = await FavoriteMusic.findById(id)
+        const favoriteMusic = await FavoriteMusic.find({});
         return favoriteMusic;
-    } catch (e) {
-        throw Error('Error while retirning favorite')
+    }catch (e){
+        console.log('Error message', e.message);
+        throw Error ('Error while paginating favorite music');
+    }
+} 
+
+favoriteMusicService.deleteFavorite = async function({songs, idUser}){
+    try{
+        const user = await findUser(idUser);
+        if(user){
+            return await deleteFavoriteMusic(user, songs);
+        }
+    }catch(e){
+        throw new Error('Error while delete favorite');
     }
 }
 

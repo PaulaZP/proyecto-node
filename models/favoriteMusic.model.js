@@ -8,7 +8,7 @@ const FavoriteMusicSchema = mongoose.Schema({
     },
     songs: [String],
 
-}, {versionKey: false})
+}, {versionKey: false});
 
 const FavoriteMusic = mongoose.model('FavoriteMusic', FavoriteMusicSchema);
 module.exports = FavoriteMusic;

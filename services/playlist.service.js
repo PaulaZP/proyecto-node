@@ -1,47 +1,26 @@
-const Playlist = require('../models/playlist.model');
-const mongoose = require('mongoose');
+const Favorite = require('../models/playlist.model')
+const playlistService = {}
 
-const PlaylistService = {};
-
-async function findUser(idUser){
+playlistService.createPlaylist = async function({idUser, playlistName, songs}){
     try{
-        const user = Playlist.findOne({idUser: mongoose.Types.ObjectId(idUser)});
-        return user ? user : null;  //? un ternario se usa como true o false
-    }
-    catch (e){
-        throw Error ('Error while getting user')
-    }
-}
+        const playlist = new Favorite({idUser, playlistName, songs});
+        const newPlaylist = await playlist.save();
 
-async function createPlaylist ({idUser, songs, playlistName}){
-    try{
-        const playlistMusic = new Playlist({idUser, songs, playlistName});
-        const newPlaylistMusic = await playlistMusic.save();
-        return newPlaylistMusic;
+        return newPlaylist;
     }catch (e){
+        //disparar el error
         throw new Error ('Error while save playlist')
     }
 }
-async function updatePlaylist(user,  songs) {
-    try {
-        user.song.unshift(songs.toString());
-        await user.save();
-        return user;
-    } catch (e) {
-        throw new Error('Error while update Recent Music');
-    }
-}
 
-PlaylistService.getPlaylist = async function({id}){
+playlistService.getPlaylist = async function(){
     try{
-        const playlist = await Playlist.findById(id)
-        return playlist;
-    }catch (e){
-        throw new Error ('Error while returning playlist');
+        const playlists = await Playlist.find({});
+        return playlists;
+
+    }catch{
+        throw new Error ('Error while Paginating playlist')
     }
 }
 
-
-
-
-module.exports = PlaylistService;
+module.exports = playlistService;

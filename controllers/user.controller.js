@@ -10,6 +10,7 @@ userController.create = async function (req, res, next) {
         return res.status(400).json({status: 400, message: e.message})
     }
 }
+
 userController.getUsers = async function(req, res, next){
     try{
         const users = await userService.getUsers();
@@ -43,4 +44,13 @@ userController.updateUser = async function(req, res, next){
     }
 }
 
+userController.deleteUser = async function(req, res, next){
+    try{
+        const deleteUser = await userService.deleteUser(req.params);
+        return res.status(200).json({deleteUser})
+
+    }catch(e){
+        return res.status(400).json({status: 400, message: e.message});
+    }
+}
 module.exports = userController;

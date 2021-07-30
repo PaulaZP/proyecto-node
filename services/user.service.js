@@ -6,25 +6,17 @@ userService.createUser = async function({name, email, password}){
     try{
         const user = new User({name, email, password: md5(password)});
         const newUser = await user.save();
-
         return newUser;
     }catch (e){
-        //disparar el error
         console.log(e.message);
         throw new Error ('Error while save user')
     }
-}
+};
 
-userService.getUsers = async function(query){
+userService.getUsers = async function(){
     try{
-        const users = await User.find(query)
-        console.log('users', users)
-        return users.map(user => {
-            let getUser = JSON.parse(JSON.stringify(user));
-            delete getUser.password;
-            return getUser;
-        });
-
+        const users = await User.find({});
+        return users;
     }catch (e){
         console.log(e.message);
         throw new Error ('Error while Paginating Users')
@@ -34,9 +26,9 @@ userService.getUsers = async function(query){
 userService.getUser = async function({id}){
     try{
         const user = await User.findById(id);
-        let savableUser = JSON.parse(JSON.stringify(user));
-        delete savableUser.password;
-        return savableUser;
+        let getUser = JSON.parse(JSON.stringify(user));
+        delete getUser.password;
+        return getUser;
     }catch (e){
         console.log(e.message);
         throw new Error ('Error while returning user');
@@ -46,14 +38,23 @@ userService.getUser = async function({id}){
 userService.updateUser = async function({id}, {name, email, password}){
     try{
         const user = await User.findById(id)
-        const updateUser = await user.set({name, email, password: md5(password)});  //setear los valores
+        const updateUser = await user.set({name, email, password: md5(password)});
         await updateUser.save();
         return updateUser;
     }catch (e){
         console.log(e.message);
-        throw new Error ('Error while returning user');
+        throw new Error ('Error while update user');
     }
 }
 
+userService.deleteUser = async function({id}){
+    try{
+        const user = await User.deleteOne({_id:id});
+        return user;
+    }catch (e){
+        console.log(e.message);
+        throw new Error ('Error while update user');
+    }
+}
 
 module.exports = userService;
