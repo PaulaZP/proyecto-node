@@ -3,7 +3,7 @@ const router = express.Router();
 const recentController = require('../controllers/recent.controller');
 
 //actualizar datos
-router.put('/recent-music', recentController.upsert);
-
+router.put('/recent', recentController.upsert);
+router.get('/recent', recentController.getRecent);
 
 module.exports = router;

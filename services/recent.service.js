@@ -13,9 +13,9 @@ async function findUser(idUser){
     }
 }
 
-async function createRecent(idUser, songs){
+async function createRecent(idUser, idSong){
     try {
-        const recentMusic = new RecentMusic({idUser, songs});
+        const recentMusic = new RecentMusic({idUser, idSong});
         const newRecentMusic = await recentMusic.save();
         return newRecentMusic;
     }
@@ -24,10 +24,10 @@ async function createRecent(idUser, songs){
     }
 }
 
-async function updateRecent(user, songs){
+async function updateRecent(user, idSong){
     try {
-        user.songs.push(songs.toString());
-        await user.save();
+        user.idSong = idSong;
+        user.save();
         return user;
     }
     catch (e){
@@ -35,17 +35,29 @@ async function updateRecent(user, songs){
     }
 }
 
-recentService.upsertRecent = async function ({idUser, songs}) {
+recentService.upsertRecent = async function ({idUser, idSong}) {
     try {
         const user = await findUser(idUser);
         if(user){
             return await updateRecent(user,songs);
         }
 
-        return await createRecent(idUser,songs)
+        return await createRecent(idUser,idSong)
     }
     catch (e) {
-        throw new Error ('Error while save recent music');
+        throw new Error ('Error while upsert recent music');
+    }
+}
+
+recentService.getRecent = async function () {
+    try {
+        const recent = await recent.find({});
+        return recent;
+
+        return await createRecent(idUser,idSong)
+    }
+    catch (e) {
+        throw new Error ('Error while paginating recent');
     }
 }
 
