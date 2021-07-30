@@ -10,7 +10,7 @@ const PlaylistSchema = mongoose.Schema({
         type: String,
         required:true
     },
-    songs: [String],
+    idSongs: [String],
 
 }, {versionKey: false})
 
