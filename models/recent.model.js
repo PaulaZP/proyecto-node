@@ -6,7 +6,10 @@ const RecentSchema = mongoose.Schema({
         type: Schema.Types.ObjectId,
         required:true
     },
-    idSong:[String]       
+    idSong:{
+        type: String,
+        required:true
+    }      
 }, {versionKey: false})
 
 const RecentMusic = mongoose.model('Recent', RecentSchema);

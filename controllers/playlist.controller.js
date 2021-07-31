@@ -38,6 +38,16 @@ playlistController.deletePlaylistSong = async function (req, res, next) {
     }
 }
 
+playlistController.getPlaylist = async function(req, res, next){
+    try{
+        const playlist = await playlistService.getPlaylist(req.params);
+        return res.status(200).json({ status:200, data: playlist, message: "Successfully playlist retrieved"})
+
+    }catch(error){
+        return res.status(400).json({status: 400, message: error.message});
+    }
+}
+
 playlistController.getPlaylistOne = async function(req, res, next){
     try{
         const playlist = await playlistService.getPlaylistOne(req.params);

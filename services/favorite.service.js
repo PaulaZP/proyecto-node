@@ -63,7 +63,7 @@ favoriteMusicService.upsertFavorite = async function({idUser, songs}){
 
 favoriteMusicService.getFavorite = async function ({id}) {
     try {
-        const favoriteMusic = await FavoriteMusic.findById({_id:id});
+        const favoriteMusic = await FavoriteMusic.find({idUser: mongoose.Types.ObjectId(id)});
         return favoriteMusic;
     }catch (e){
         console.log('Error message', e.message);

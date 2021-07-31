@@ -35,14 +35,14 @@ async function updateRecent(user, idSong){
     }
 }
 
-recentService.upsertRecent = async function ({idUser, idSong}) {
+recentService.upsertRecent = async function ({id}, {idSong}) {
     try {
-        const user = await findUser(idUser);
+        const user = await findUser(id);
         if(user){
             return await updateRecent(user,idSong);
         }
 
-        return await createRecent(idUser,idSong)
+        return await createRecent(id, idSong)
     }
     catch (e) {
         throw new Error ('Error while upsert recent music');
@@ -51,7 +51,7 @@ recentService.upsertRecent = async function ({idUser, idSong}) {
 
 recentService.getRecent = async function ({id}) {
     try {
-        const recent = await RecentMusic.findById({_id:id});
+        const recent = await RecentMusic.find({idUser:id});
         return recent;
     }
     catch (e) {

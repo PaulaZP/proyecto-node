@@ -1,5 +1,7 @@
-const playlist = require('../models/playlist.model')
-const playlistService = {}
+const playlist = require('../models/playlist.model');
+const mongoose = require('mongoose');
+const playlistService = {};
+
 
 playlistService.createPlaylist = async function({idUser, playlistName, idSongs}){
     try{
@@ -48,9 +50,20 @@ playlistService.deletePlaylist = async function({id}){
     }
 }
 
-playlistService.getPlaylistOne = async function({id}){
+playlistService.getPlaylist = async function({idUser}){
     try{
-        const playlistOne = await playlist.find({_id:id});
+        const playlists = await playlist.find({idUser: mongoose.Types.ObjectId(idUser)});
+        return playlists;
+
+    }catch{
+        throw new Error ('Error while Paginating playlist')
+    }
+}
+
+
+playlistService.getPlaylistOne = async function({idUser, id}){
+    try{
+        const playlistOne = await playlist.find({idUser: mongoose.Types.ObjectId(idUser),_id:id});
         return playlistOne;
 
     }catch{
