@@ -13,7 +13,7 @@ FavoriteMusicController.upsert = async function (req, res, next) {
 
 FavoriteMusicController.getFavorite = async function(req, res, next){
     try{
-        const favorites = await favoriteMusicService.getFavorite();
+        const favorites = await favoriteMusicService.getFavorite(req.params);
         return res.status(200).json({ status:200, data: favorites, message: "Successfully favorites retrieved"})
 
     }catch(e){

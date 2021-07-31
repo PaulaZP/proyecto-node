@@ -49,9 +49,9 @@ recentService.upsertRecent = async function ({idUser, idSong}) {
     }
 }
 
-recentService.getRecent = async function () {
+recentService.getRecent = async function ({id}) {
     try {
-        const recent = await RecentMusic.find({});
+        const recent = await RecentMusic.findById({_id:id});
         return recent;
     }
     catch (e) {

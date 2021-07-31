@@ -61,9 +61,9 @@ favoriteMusicService.upsertFavorite = async function({idUser, songs}){
     }
 }
 
-favoriteMusicService.getFavorite = async function () {
+favoriteMusicService.getFavorite = async function ({id}) {
     try {
-        const favoriteMusic = await FavoriteMusic.find({});
+        const favoriteMusic = await FavoriteMusic.findById({_id:id});
         return favoriteMusic;
     }catch (e){
         console.log('Error message', e.message);

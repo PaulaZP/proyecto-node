@@ -29,7 +29,9 @@ playlistService.deleteSongs = async function({id},{idUser, playlistName, idSongs
         const updatePlay = await Playlist.set({idUser, playlistName});
         Playlist.idSongs.pull(idSongs.toString());
         await updatePlay.save();
-        return updatePlay;
+        if(Playlist){
+            return "song deleted";
+        }
     }catch (e){
         throw new Error ('Error while delete playlist')
     }
@@ -38,20 +40,11 @@ playlistService.deleteSongs = async function({id},{idUser, playlistName, idSongs
 playlistService.deletePlaylist = async function({id}){
     try{
         const Playlist = await playlist.deleteOne({_id:id});
-        return Playlist;
+        if(Playlist){
+            return "playlist deleted";
+        }
     }catch (e){
         throw new Error ('Error while delete playlist')
-    }
-}
-
-
-playlistService.getPlaylist = async function(){
-    try{
-        const playlists = await playlist.find({});
-        return playlists;
-
-    }catch{
-        throw new Error ('Error while Paginating playlist')
     }
 }
 

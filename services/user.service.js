@@ -50,7 +50,9 @@ userService.updateUser = async function({id}, {name, email, password}){
 userService.deleteUser = async function({id}){
     try{
         const user = await User.deleteOne({_id:id});
-        return user;
+        if(user){
+            return "user deleted";
+        }
     }catch (e){
         console.log(e.message);
         throw new Error ('Error while update user');
