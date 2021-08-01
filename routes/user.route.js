@@ -5,6 +5,9 @@ const userController = require('../controllers/user.controller') // Esto es para
 // Se usa para crear un nuevo usuario
 router.post('/user', userController.create);
 
+// Se usa para crear un correo y verificar si existe
+router.post('/users/:email', userController.logginUser);
+
 //Se uasa para traer todos los usuarios
 router.get('/users', userController.getUsers)
 

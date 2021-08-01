@@ -53,4 +53,14 @@ userController.deleteUser = async function(req, res, next){
         return res.status(400).json({status: 400, message: e.message});
     }
 }
+
+userController.logginUser = async function(req, res, next){
+    try{
+        const loggin = await userService.logginUser(req.params);
+        return res.status(200).json({loggin})
+
+    }catch(e){
+        return res.status(400).json({status: 400, message: e.message});
+    }
+}
 module.exports = userController;

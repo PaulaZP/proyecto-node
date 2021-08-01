@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+//
 const FavoriteMusicSchema = mongoose.Schema({
     idUser: {
         type: Schema.Types.ObjectId,
