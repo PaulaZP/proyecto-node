@@ -2,6 +2,23 @@ const md5 = require('md5');
 const User = require('../models/user.model')
 const userService = {}
 
+/*Cuando se llama a la función asíncrona, regresa con una Promesa. Cuando la función asíncrona devuelve un valor,
+la promesa se cumple, si la función asíncrona arroja un error, se rechaza.
+
+La palabra await se puede utilizar para esperar a que se resuelva una promesa y devuelva el valor cumplido
+
+md5 - para incriptar datos sensibles
+
+save - se usa para guardar el documento en la base de datos
+
+find - se usa para encontrar datos particulares de la base de datos
+
+findById - se usa para buscar un solo documento por su campo _id
+
+deleteOne - se usa para eliminar el primer documento que cumple las condiciones de la colección
+
+*/
+
 userService.createUser = async function({name, email, password}){
     try{
         const user = new User({name, email, password: md5(password)});

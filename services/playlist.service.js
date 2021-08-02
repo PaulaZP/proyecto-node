@@ -2,6 +2,27 @@ const playlist = require('../models/playlist.model');
 const mongoose = require('mongoose');
 const playlistService = {};
 
+/*Cuando se llama a la función asíncrona, regresa con una Promesa. Cuando la función asíncrona devuelve un valor,
+la promesa se cumple, si la función asíncrona arroja un error, se rechaza.
+
+La palabra await se puede utilizar para esperar a que se resuelva una promesa y devuelva el valor cumplido
+
+save - se usa para guardar el documento en la base de datos
+
+findById - se usa para buscar un solo documento por su campo _id
+
+set - se utiliza para asignar el nombre de la configuración al valor.
+
+push - se usa para agregar valores al final del array
+
+pull - se usa para eliminar un elemento de la colección mediante la clave dada y devolver el elemento extraído.
+
+find - se usa para encontrar datos particulares de la base de datos
+
+deleteOne - se usa para eliminar el primer documento que cumple las condiciones de la colección
+
+*/
+
 
 playlistService.createPlaylist = async function({idUser, playlistName, idSongs}){
     try{

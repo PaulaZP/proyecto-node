@@ -3,6 +3,19 @@ const FavoriteMusic = require('../models/favoriteMusic.model');
 
 const favoriteMusicService = {};
 
+/*Cuando se llama a la función asíncrona, regresa con una Promesa. Cuando la función asíncrona devuelve un valor,
+la promesa se cumple, si la función asíncrona arroja un error, se rechaza.
+
+La palabra await se puede utilizar para esperar a que se resuelva una promesa y devuelva el valor cumplido
+
+save - se usa para guardar el documento en la base de datos
+
+pull - se usa para eliminar un elemento de la colección mediante la clave dada y devolver el elemento extraído.
+
+find - se usa para encontrar datos particulares de la base de datos
+
+*/
+
 async function findUser(idUser){
     try{
         const user = await FavoriteMusic.findOne({idUser: mongoose.Types.ObjectId(idUser)});
