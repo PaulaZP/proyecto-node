@@ -76,12 +76,12 @@ userService.deleteUser = async function({id}){
     }
 }
 
-userService.logginUser = async function({email}, {password}){
+userService.logginUser = async function({email,password}){
     try{
-        const users = await User.find({email:email});
-        if(users[0].password == md5(password)){
+        const users = await User.findOne({email});
+        if(users.password == md5(password)){
             return data = {
-                id:users[0]._id,
+                id:users._id,
                 status:true
             }
         }else{

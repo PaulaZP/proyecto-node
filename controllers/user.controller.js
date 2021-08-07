@@ -68,7 +68,7 @@ userController.deleteUser = async function(req, res, next){
 userController.logginUser = async function(req, res, next){
     try{
         // la solicitud ha tenido existo
-        const loggin = await userService.logginUser(req.params, req.body);
+        const loggin = await userService.logginUser(req.body);
         return res.status(200).json({loggin})
 
     }catch(e){

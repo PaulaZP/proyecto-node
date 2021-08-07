@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
+const cors = require('cors');
 const userRoute = require('./routes/user.route');
 const favoriteMusicRoute = require('./routes/favorite.route');
 const recentRoute = require('./routes/recent.route');
@@ -18,12 +19,13 @@ db.on('error', error=>console.log(error))
 
 //once - se usa en condiciones en las que queremos que una función en particular se ejecute solo una vez.
 db.once('open', ()=> console.log('connection to db established'))
-
+app.use(cors());
 app.use(express.json()); //vamos a traer lo del body como un JSON
 app.use(express.urlencoded({ // es una función de middleware incorporada en Express. Analiza las solicitudes entrantes con cargas útiles codificadas en urlencoded y se basa en body-parser.
     type: 'application/x-www-form-urlencoded',
     extended: true,
 }))
+
 
 // el app.use llama a los routes y los routes llama a los controllers
 app.use('/', userRoute);
